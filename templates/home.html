@@ -1,0 +1,39 @@
+{% comment %} <!-- home.html -->
+ {% load socialaccount %}
+ {% providers_media_js %} 
+ <h1>소셜 로그인을 해봐요!</h1> 
+ <a href = "/accounts/signup">회원가입</a>
+ <a href="{% url 'account_login' %}">Sign In</a> {% endcomment %}
+ 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+
+    <div>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
+        {% comment %} <h1> 메일 인증 </h1>
+         <li><a href="{% url 'signup' %}">메일인증하기</a></li> {% endcomment %}
+        {% else %}
+        <li><a href="{% url 'login' %}">Sign In</a></li>
+        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+  </body>
+</html>
+
+
+
