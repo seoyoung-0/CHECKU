@@ -92,6 +92,14 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = False
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+# SOCIALACCOUNT_AUTO_SIGNUP = True
+# SOCIALACCOUNT_EMAIL_REQUIRED = True
 
 WSGI_APPLICATION = 'kudoc.wsgi.application'
 
@@ -125,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+# AUTH_USER_MODEL = 'users.MyUser'
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 

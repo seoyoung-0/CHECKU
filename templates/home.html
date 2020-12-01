@@ -19,8 +19,18 @@
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}">로그아웃</a></li>
-        {% comment %} <h1> 메일 인증 </h1>
-         <li><a href="{% url 'signup' %}">메일인증하기</a></li> {% endcomment %}
+        {{user.username}}
+        {{user.is_active}}
+        
+        <form method="POST" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <p> 건국대학교 웹메일로 인증하기 </p>
+          <br>
+          <input name="e_mail" type="email" value="">
+          <br>
+          <input class="btn btn-primary" type="submit" value="인증하기">
+        </form>
+
         {% else %}
         <li><a href="{% url 'login' %}">Sign In</a></li>
         <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
