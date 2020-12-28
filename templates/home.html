@@ -18,7 +18,6 @@
             <li><a href="{% url 'logout' %}">로그아웃</a></li>
             {{user.username}}
             {{user.is_active}}
-            
             <form method="POST" action="{% url 'signup' %}">
               {% csrf_token %}
               <p> 건국대학교 웹메일로 인증하기 </p>
