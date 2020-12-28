@@ -1,36 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-  <head>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
-  </head>
+    </head>
   <body>
     {% block body %}
-{% comment %} 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
+    <div class="logo">
+        
     </div>
-    {% endif %} {% endcomment %}
-
-    <div>
-      <ul>
-        {% if user.is_authenticated %}
-
-        {% else %}
-        {% comment %} <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li> {% endcomment %}
-        {% endif %}
-      </ul>
+    <div class="logo_text">
+        <p>건대생을 위한 
+            공지 구독 알람 서비스,
+            KUDOC </p>
     </div>
     {% block content %}
+
     {% endblock %}
     {% endblock %}
     {% block extra_body %}
     {% endblock %}
   </body>
 </html>
+
+

@@ -2,8 +2,9 @@ import os
 import jwt
 import json 
 from django.views import View 
-from django.http import HttpResponse, JsonResponse 
+from django.http import HttpResponse, JsonResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
+from django.utils import six
 from django.contrib import auth 
 from django.contrib.auth.models import User 
 from django.contrib.auth import get_user_model 
@@ -17,7 +18,7 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token 
 from .text import message
 from kudoc.my_settings import EMAIL
-# Create your views here.
+
 def home(request):
     return render(request,'home.html')
 
@@ -29,11 +30,6 @@ def login(request):
 
 def logout(request):
      return render(request,'account/logout.html')
-
-# def signup(request): # 메일 주소 전달받음 -> 메일 인증 
-#     email = request.POST.get('e_mail')
-
-#     return HttpResponse(email)
 
 class SignUpView(View):
 
@@ -52,7 +48,7 @@ class SignUpView(View):
             validate_email(data)
 
             current_site = get_current_site(request)
-            domain = current_site.domain
+            domain = current_site.domain # 메일 인증 링크 전달시 전달되는 도메인 
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             token = account_activation_token.make_token(user)
             message_data = message(domain, uidb64,token)
@@ -62,7 +58,9 @@ class SignUpView(View):
             email = EmailMessage(mail_title,message_data, to = [mail_to])
             email.send()
 
-            return JsonResponse({"message": "SUCCESS"}, status = 200)
+            return HttpResponseRedirect("https://kumail.konkuk.ac.kr/adfs/ls/?lc=1042&wa=wsignin1.0&wtrealm=urn%3afederation%3aMicrosoftOnline")
+
+            # return JsonResponse({"message": "SUCCESS"}, status = 200)
 
         except KeyError:
             return JsonResponse({"message": "INVALID_KEY"}, status = 400)
@@ -79,7 +77,7 @@ class Activate(View):
             user = User.objects.get(pk = uid)
 
             if account_activation_token.check_token(user, token):
-                user.is_active = True
+                user.is_active = False
                 user.save()
 
                 return redirect(EMAIL['REDIRECT_PAGE'])

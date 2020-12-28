@@ -42,11 +42,26 @@ from django.db import models
 
 #     USERNAME_FIELD = 'username'
 #     objects = UserManager()
+SUBSCRIPTION_CHOICES = (
+        ('AC','Academic'), #학사 
+        ('ST','Student'),#학생
+        ('SC','Scolarship'),#장학
+        ('IN','Industry'),#산학
+        ('EM','Employment'),#취창업
+        ('CV','Corona'),#코로나
+        ('IT', 'International'),#국제 
+)
 
 class User(models.Model):
     username = models.CharField(max_length=50, unique=False)
     email = models.EmailField(max_length=200, unique=True)
-    is_active= models.BooleanField(default=False)
+    is_active= models.BooleanField(default=True)
+    subscription_list = models.CharField(max_length=5, choices = SUBSCRIPTION_CHOICES)
 
     def __str__(self):
         return self.username 
+
+
+class Notice(models.Model):
+    title = models.CharField(max_length=50, unique=True),
+    subscribed = models.ManyToManyField(User)
