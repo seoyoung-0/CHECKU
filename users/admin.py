@@ -1,7 +1,4 @@
 from django.contrib import admin
-from . import models
-# Register your models here.
+from .models import User,Notice
 
-# @admin.register(models.MyUser)
-# class UserAdmin(admin.ModelAdmin):
-#     pass
+admin.site.register(User)

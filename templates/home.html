@@ -15,10 +15,13 @@
 
     <div>
         {% if user.is_authenticated %}
+        {% for account in user.socialaccount_set.all %}
+          {{account.name}}
+          {{account.extra_data.link}}
+          {{account.extra_data.email}}
+        {% endfor %}
             <li><a href="{% url 'logout' %}">로그아웃</a></li>
-            {{user.username}}
-            {{user.is_active}}
-            
+
             <form method="POST" action="{% url 'signup' %}">
               {% csrf_token %}
               <p> 건국대학교 웹메일로 인증하기 </p>
