@@ -15,10 +15,7 @@
 
     <div>
         {% if user.is_authenticated %}
-        {% for account in user.socialaccount_set.all %}
-          {{account.name}}
-          {{account.extra_data.link}}
-          {{account.extra_data.email}}
+          {{user.username}}
         {% endfor %}
             <li><a href="{% url 'logout' %}">로그아웃</a></li>
 
