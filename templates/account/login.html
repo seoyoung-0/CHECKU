@@ -11,7 +11,16 @@
 
         <a href = "/accounts/logout">로그아웃</a> 
         {{user.username}} 님이 로그인중 
+        {{user.is_active}}
 
+        <form method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <p> 건국대학교 웹메일로 인증하기 </p>
+            <br>
+            <input name="e_mail" type="email" value="">
+            <br>
+            <input class="btn btn-primary" type="submit" value="인증하기">
+          </form>
     {% else %}
  
 <div class="kakao_login">

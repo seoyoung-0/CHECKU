@@ -14,22 +14,28 @@
     {% block body %}
 
     <div>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">로그아웃</a></li>
-            {{user.username}}
+            <!-- {{user.username}}
             {{user.is_active}}
-            <form method="POST" action="{% url 'signup' %}">
+
+            {% for account in user.socialaccount_set.all %}
+              <h2 style="text-transform:capitalize;">{{ account.provider }} account data</h2>
+              <p>UID: {{ account.uid }}</a></p>
+              <p>Username: {{ account.extra_data.name }}</p>
+            {% endfor %} -->
+            <!--메일 인증 -> main.html 로 리다이렉트 -->
+
+            <!-- <a href="{% url 'subscribe' object.id %}" >{{object.title}}</a> -->
+            
+            <!-- <form method="POST" action="{% url 'signup' %}">
               {% csrf_token %}
               <p> 건국대학교 웹메일로 인증하기 </p>
               <br>
               <input name="e_mail" type="email" value="">
               <br>
               <input class="btn btn-primary" type="submit" value="인증하기">
-            </form>
+            </form> -->
 
-        {% else %}
         <a href="{% url 'login' %}">Sign In</a>
-        {% endif %}
     </div>
 
     {% block content %}
