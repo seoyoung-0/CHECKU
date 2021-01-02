@@ -1,1 +1,26 @@
 <h1> 서비스 메인 화면 </h1>
+
+{% if user.is_authenticated %}
+    {{user.username}}
+
+
+    {% for notice in notice_list %}
+    <div>
+        
+    </div>
+    <div>
+        <a href = "{% url 'subscribe' notice.id %}">
+            <p>{{ notice.title }}</p>
+            {% for user in notice.subscribed.all %}
+                {{ user.username }}
+                {{ user.email }}
+            {% endfor %}
+            <br>
+            <span>{{ notice.subscribed.all }}</span>
+        </a>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <p>로그인 필요</p>
+{% endif %}

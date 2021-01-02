@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     #카카오
     'allauth.socialaccount.providers.kakao',
 ]
+# AUTH_USER_MODEL='users.MyUser'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_ADAPTER="users.adapters.SocialAccountAdapter"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,14 +96,7 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_REQUIRED = False
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-# SOCIALACCOUNT_AUTO_SIGNUP = True
-# SOCIALACCOUNT_EMAIL_REQUIRED = True
+
 
 WSGI_APPLICATION = 'kudoc.wsgi.application'
 
@@ -134,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = 'users.MyUser'
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -153,8 +149,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 
 SITE_ID = 2
 
-
 # django-allauth setting
-LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지
+LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지 --> 구독 모델 리스트 템플릿으로?
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃

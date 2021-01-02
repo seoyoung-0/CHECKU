@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 import users.views
+from users.views import login,NoticeList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', users.views.home, name = "home"),
-    path('main/', users.views.main, name = "main"),
+    path('', login, name = "login"),
+    path('main/', NoticeList.as_view(), name = "main"),
     path('users/',include('users.urls')),
     path('accounts/', include('allauth.urls')),
 
