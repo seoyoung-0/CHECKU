@@ -1,26 +1,45 @@
-<h1> 서비스 메인 화면 </h1>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+<div class="logout">
+    <a class="logout_link" href = "/accounts/logout">로그아웃하기</a> 
+</div>
+<h1> 학교 공지사항</h1>
+<p>알림받고 싶은 게시판을 선택해주세요.</p>
 
 {% if user.is_authenticated %}
-    {{user.username}}
+    <div class="menu_wrapper">
+        <div>
+            <!-- 전체 선택 버튼 + view 구현  -->
+        </div>
+        {% for notice in notice_list %}
+        <div class ="menu_dot">
+            <a class="menu_link" href = "{% url 'subscribe' notice.id %}">
+                {{ notice.title }}
+            </a>
+        </div>
+    {% endfor %}
+
 
 
     {% for notice in notice_list %}
-    <div>
-        
-    </div>
-    <div>
-        <a href = "{% url 'subscribe' notice.id %}">
-            <p>{{ notice.title }}</p>
-            {% for user in notice.subscribed.all %}
-                {{ user.username }}
-                {{ user.email }}
-            {% endfor %}
-            <br>
-            <span>{{ notice.subscribed.all }}</span>
-        </a>
-    </div>
+    <br>
+    {{ notice.title }}
+        {% for user in notice.subscribed.all %}
+            {{ user.username }}
+            {{ user.email }}
+         {% endfor %}
+    <br>
     {% endfor %}
+    </div>
 
 {% else %}
     <p>로그인 필요</p>
 {% endif %}
+</body>
+</html>
