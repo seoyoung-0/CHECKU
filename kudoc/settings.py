@@ -90,13 +90,9 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
 
 WSGI_APPLICATION = 'kudoc.wsgi.application'
 
@@ -148,8 +144,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 
 SITE_ID = 2
+AUTH_USER_MODEL = 'users.User'
 
 # django-allauth setting
-LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지 --> 구독 모델 리스트 템플릿으로?
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
