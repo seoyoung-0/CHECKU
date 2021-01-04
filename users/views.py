@@ -1,11 +1,12 @@
 import os
 import jwt
 import json 
+import urllib 
+import requests
 from django.views import View 
-from django.http import HttpResponse, JsonResponse,HttpResponseRedirect
+from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
 from urllib.parse import urlparse 
-
 from django.utils import six
 from django.contrib import auth 
 from django.contrib.auth.models import User 
@@ -19,18 +20,74 @@ from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token 
 from .text import message
+from django.contrib.auth import login as django_login
 from kudoc.my_settings import EMAIL
-
-from .models import Notice 
-
-# def home(request):
-#     return render(request,'home.html')
+from .models import Notice,User
 
 def login(request):
+
      return render(request,'account/login.html')
 
 def logout(request):
      return render(request,'account/logout.html')
+
+def kakao_login(request):
+    app_rest_api_key = "7f10591e41861fe1f1c3c98ccb4b56d1"
+    redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
+    return redirect(
+        f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
+    )
+
+# access token 요청
+def kakao_callback(request):    
+        code = request.GET.get("code",None)
+        app_rest_api_key = "7f10591e41861fe1f1c3c98ccb4b56d1"
+        redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
+        url = "https://kauth.kakao.com/oauth/token"
+        headers={
+            'Content-type':'application/x-www-form-urlencoded; charset=utf-8'
+        }
+        body = {
+            'grant_type':'authorization_code',
+            'client_id':app_rest_api_key,
+            'redirect_uri':redirect_uri,
+            'code':code
+        }
+        token_kakao_response = requests.post(url,headers=headers,data=body)
+        access_token = json.loads(token_kakao_response.text).get('access_token')
+
+        url = 'https://kapi.kakao.com/v2/user/me'
+
+        headers = {
+            'Authorization':f'Bearer {access_token}',
+            # 'Content-type' : 'application/x-www-form-urlencoded; charset=utf-8'
+        }
+        kakao_response = requests.get(url, headers = headers)
+        kakao_response = json.loads(kakao_response.text)
+
+        #사용자 존재할 때 
+        if User.objects.filter(kakao_id = kakao_response['id']).exists():
+            user = User.objects.get(kakao_id = kakao_response['id'])
+            jwt_token = jwt.encode({'id':user.kakao_id},'checku',algorithm='HS256')
+            print(user.is_authenticated)
+            if user.is_authenticated:
+                django_login(
+                    request, 
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend",)
+                return redirect("http://127.0.0.1:8000/main")
+            #return HttpResponse(f'id:{user.kakao_id}, name:{user.nickname}')
+
+        #처음 로그인 하는 User 추가 
+        User(
+            kakao_id = kakao_response['id'],
+            nickname = kakao_response['properties']['nickname'],
+            active = False
+        ).save()
+        user = User.objects.get(kakao_id = kakao_response['id'])
+        m_token = jwt.encode({'id':user.kakao_id},'checky',algorithm='HS256')
+        user = authenticate(kakao_id = kakao_response['id'])
+        return HttpResponse(f'id:{user.kakao_id},name:{user.nickname}')
 
 class NoticeList(View):
     model = Notice
@@ -57,15 +114,15 @@ class SubscribeView(View):
             path = urlparse(referer_url).path
             return HttpResponseRedirect(path)
 
-class SubscribedList(View):
-    template_name = 'admin.html'
-    def get(self, request):
-        queryset = user.subscribed.all()
+# class SubscribedList(View):
+#     template_name = 'admin.html'
+#     def get(self, request):
+#         queryset = user.subscribed.all()
         
-    def get_queryset(self):
-        queryset = user.subscribed.all()
-        return queryset
-# user 별 구독한 모델 가져오기 
+#     def get_queryset(self):
+#         queryset = user.subscribed.all()
+#         return queryset
+# # user 별 구독한 모델 가져오기 
 
 
 
@@ -80,7 +137,7 @@ class SignUpView(View):
 
         user = request.user
         user.email = data
-        user.is_valid = True #user 모델에 is_valid 추가  
+        user.valid = True 
         user.save()
 
         try:
