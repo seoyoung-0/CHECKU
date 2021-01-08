@@ -86,8 +86,12 @@ def kakao_callback(request):
         ).save()
         user = User.objects.get(kakao_id = kakao_response['id'])
         m_token = jwt.encode({'id':user.kakao_id},'checky',algorithm='HS256')
-        user = authenticate(kakao_id = kakao_response['id'])
-        return HttpResponse(f'id:{user.kakao_id},name:{user.nickname}')
+        if user.is_authenticated:
+                django_login(
+                    request, 
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend",)
+                return redirect("http://127.0.0.1:8000/main")
 
 class NoticeList(View):
     model = Notice
