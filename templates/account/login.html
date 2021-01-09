@@ -1,35 +1,35 @@
 {% extends "account/base.html" %}
+
 {% load static %}
 {% load i18n %}
 {% load socialaccount %}
-{% providers_media_js %} 
-<head>
-</head>
-{% block content %}
-<body>
-     {% if user.is_authenticated %} 
 
-        <a href = "/accounts/logout">로그아웃</a> 
-        {{user.username}} 님이 로그인중 
-        {{user.is_active}}
+{% providers_media_js %}
 
-        <form method="POST" action="{% url 'signup' %}">
-            {% csrf_token %}
-            <p> 건국대학교 웹메일로 인증하기 </p>
-            <br>
-            <input name="e_mail" type="email" value="">
-            <br>
-            <input class="btn btn-primary" type="submit" value="인증하기">
-          </form>
-    {% else %}
- 
-<div class="kakao_login">
-    <div class="login_text">공지사항을 카톡으로 받아보세요!</div>
- <a href="/users/login/kakao">카카오로 로그인</a>
- <!-- users/login/kakao 로 연결하기 -->
-</div>
- {% endif %}
-
-
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 {% endblock %}
+
+{% block content %}
+
+<body>
+  {% if user.is_authenticated %}
+    <a href="/accounts/logout">로그아웃</a>
+    {{user.username}} 님이 로그인중 {{user.is_active}}
+
+    <form method="POST" action="{% url 'signup' %}">
+      {% csrf_token %}
+      <p>건국대학교 웹메일로 인증하기</p>
+      <br />
+      <input name="e_mail" type="email" value="" />
+      <br />
+      <input class="btn btn-primary" type="submit" value="인증하기" />
+    </form>
+  {% else %}
+    <div class="kakao_login">
+      <div class="login_text">공지사항을 카톡으로 받아보세요!</div>
+      <a href="/users/login/kakao">카카오로 로그인</a>
+    </div>
+  {% endif %}
 </body>
+{% endblock %}

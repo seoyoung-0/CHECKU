@@ -1,27 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    </head>
-  <body>
-    {% block body %}
-    <div class="logo">
-        
-    </div>
-    <div class="logo_text">
-        <p>건대생을 위한 
-            공지 구독 알람 서비스,
-            CHECKU</p>
-    </div>
-    {% block content %}
+<html lang="ko">
 
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bulma/css/bulma.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
+	{% block styles %}
+	{% endblock %}
+	<title>CHECKU :: 건국대학교 공지알리미</title>
+</head>
+
+<body>
+	{% block content %}
+	{% endblock %}
+
+	{% block script %}
+	{% endblock %}
+</body>
+
 </html>
-
-
