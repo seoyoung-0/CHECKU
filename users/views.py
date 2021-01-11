@@ -21,7 +21,7 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
 from .text import message
 from django.contrib.auth import login as django_login
-from kudoc.my_settings import EMAIL
+from kudoc.my_settings import EMAIL,app_rest_api_key
 from .models import Notice, User
 
 
@@ -35,18 +35,13 @@ def logout(request):
 
 
 def kakao_login(request):
-    app_rest_api_key = "7f10591e41861fe1f1c3c98ccb4b56d1"
     redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
     )
 
-# access token 요청
-
-
 def kakao_callback(request):
     code = request.GET.get("code", None)
-    app_rest_api_key = "7f10591e41861fe1f1c3c98ccb4b56d1"
     redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
     url = "https://kauth.kakao.com/oauth/token"
     headers = {
@@ -82,7 +77,6 @@ def kakao_callback(request):
                 user,
                 backend="django.contrib.auth.backends.ModelBackend",)
             return redirect("http://127.0.0.1:8000/main")
-        # return HttpResponse(f'id:{user.kakao_id}, name:{user.nickname}')
 
     # 처음 로그인 하는 User 추가
     User(
