@@ -70,14 +70,17 @@ def kakao_callback(request):
         user = User.objects.get(kakao_id=kakao_response['id'])
         jwt_token = jwt.encode({'id': user.kakao_id},
                                'checku', algorithm='HS256')
-        print(user.is_authenticated)
         if user.is_authenticated:
             django_login(
                 request,
                 user,
                 backend="django.contrib.auth.backends.ModelBackend",)
-            return redirect("http://127.0.0.1:8000/main")
-
+            #카카오 로그인 -> 이메일 인증 여부 확인 
+            if user.active == True: 
+                return redirect("http://127.0.0.1:8000/main")
+            else:
+                return redirect("http://127.0.0.1:8000/")
+    
     # 처음 로그인 하는 User 추가
     User(
         kakao_id=kakao_response['id'],
@@ -86,12 +89,12 @@ def kakao_callback(request):
     ).save()
     user = User.objects.get(kakao_id=kakao_response['id'])
     m_token = jwt.encode({'id': user.kakao_id}, 'checky', algorithm='HS256')
-    if user.is_authenticated:
+    if user.is_authenticated :
         django_login(
             request,
             user,
             backend="django.contrib.auth.backends.ModelBackend",)
-        return redirect("http://127.0.0.1:8000/main")
+        return redirect("http://127.0.0.1:8000/")
 
 
 class NoticeList(View):
@@ -136,32 +139,25 @@ class SignUpView(View):
 
     def post(self, request):
         data = request.POST['e_mail']
-        if User.objects.filter(email=data).exists():
-            # 이미 인증 받은 메일의 경우
-            return redirect("http://127.0.0.1:8000/main")
-
         user = request.user
         user.email = data
-        user.valid = True
+        user.active = True
         user.save()
 
         try:
             validate_email(data)
 
-            current_site = get_current_site(request)
-            domain = current_site.domain  # 메일 인증 링크 전달시 전달되는 도메인
+            domain = "127.0.0.1:8000"
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+
             token = account_activation_token.make_token(user)
             message_data = message(domain, uidb64, token)
-
             mail_title = " 이메일 인증을 완료해주세요 !"
             mail_to = data
             email = EmailMessage(mail_title, message_data, to=[mail_to])
             email.send()
 
             return HttpResponseRedirect("https://kumail.konkuk.ac.kr/adfs/ls/?lc=1042&wa=wsignin1.0&wtrealm=urn%3afederation%3aMicrosoftOnline")
-
-            # return JsonResponse({"message": "SUCCESS"}, status = 200)
 
         except KeyError:
             return JsonResponse({"message": "INVALID_KEY"}, status=400)
@@ -170,22 +166,14 @@ class SignUpView(View):
         except ValidationError:
             return JsonResponse({"message": "VALIDATION_ERROR"}, status=200)
 
-
 class Activate(View):
-    def get(self, request, uidb64, token):
-        try:
-            uid = force_text(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
+    def activate(self, request, uidb64, token):
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = Users.objects.get(pk=uid)
+        if account_activation_token.check_token(user, token):
+            user.active = True
+            user.save()
+            return redirect(EMAIL['REDIRECT_PAGE'])
 
-            if account_activation_token.check_token(user, token):
-                user.is_active = True
-                user.save()
+        return JsonResponse({"message": "AUTH FAIL"}, status=400)
 
-                return redirect(EMAIL['REDIRECT_PAGE'])
-
-            return JsonResponse({"message": "AUTH FAIL"}, status=400)
-
-        except ValidationError:
-            return JsonResponse({"message": "TYPE_ERROR"}, status=400)
-        except KeyError:
-            return JsonResponse({"message": "INVALID_KEY"}, status=400)
