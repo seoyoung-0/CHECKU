@@ -21,7 +21,7 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
 from .text import message
 from django.contrib.auth import login as django_login
-from kudoc.my_settings import EMAIL, app_rest_api_key,SECRET_KEY
+from kudoc.my_settings import EMAIL, app_rest_api_key, SECRET_KEY
 from .models import Notice, User
 
 
@@ -76,12 +76,12 @@ def kakao_callback(request):
                 request,
                 user,
                 backend="django.contrib.auth.backends.ModelBackend",)
-            #카카오 로그인 -> 이메일 인증 여부 확인 
-            if user.active == True: 
+            # 카카오 로그인 -> 이메일 인증 여부 확인
+            if user.active == True:
                 return redirect("http://127.0.0.1:8000/main")
             else:
                 return redirect("http://127.0.0.1:8000/")
-    
+
     # 처음 로그인 하는 User 추가
     User(
         kakao_id=kakao_response['id'],
@@ -90,7 +90,7 @@ def kakao_callback(request):
     ).save()
     user = User.objects.get(kakao_id=kakao_response['id'])
     m_token = jwt.encode({'id': user.kakao_id}, 'checky', algorithm='HS256')
-    if user.is_authenticated :
+    if user.is_authenticated:
         django_login(
             request,
             user,
@@ -124,6 +124,7 @@ class SubscribeView(View):
             path = urlparse(referer_url).path
             return HttpResponseRedirect(path)
 
+
 class SignUpView(View):
 
     def post(self, request):
@@ -136,9 +137,10 @@ class SignUpView(View):
         try:
             validate_email(data)
             domain = "127.0.0.1:8000"
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+            uidb64 = urlsafe_base64_encode(
+                force_bytes(user.pk)).encode().decode()
             token = account_activation_token.make_token(user)
-            message_data = message(domain, uidb64,token)
+            message_data = message(domain, uidb64, token)
             mail_title = " 이메일 인증을 완료해주세요 !"
             mail_to = data
             email = EmailMessage(mail_title, message_data, to=[mail_to])
@@ -153,6 +155,7 @@ class SignUpView(View):
         except ValidationError:
             return JsonResponse({"message": "VALIDATION_ERROR"}, status=200)
 
+
 class Activate(View):
     def get(self, request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -163,4 +166,3 @@ class Activate(View):
             return redirect(EMAIL['REDIRECT_PAGE'])
 
         return JsonResponse({"message": "AUTH FAIL"}, status=400)
-
