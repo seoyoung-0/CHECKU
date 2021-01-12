@@ -1,0 +1,135 @@
+/* login.css */
+.container {
+    padding-top: 60px !important;
+    height: 90vh;
+}
+
+.tile-container>.tile.is-parent {
+    padding-bottom: 0 !important;
+}
+
+.title-tile .title {
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.title-tile .subtitle {
+    font-weight: 500;
+    font-size: 40px;
+}
+
+.title-tile .minititle {
+    font-size: 20px;
+    font-weight: 400;
+    color: #969696;
+}
+
+.logo-tile {
+    padding: 10rem;
+}
+
+.checku-logo {
+    height: 182px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.kakao-tile {
+    align-items: center !important;
+}
+
+.kakao-tile>.box {
+    height: max-content;
+    width: 100%;
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.kakao-tile .subtitle {
+    font-weight: 400;
+    font-size: 30px;
+}
+
+.auth-input {
+    width: 100%;
+    background-color: #FBFBFB;
+    border: 1px solid #53A770;
+    padding: 0.5rem;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.auth-span {
+    color: #000 !important;
+}
+
+.auth-strong {
+    color: #53A770 !important;
+}
+
+.auth-submit {
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: #53A770;
+    padding: 0.5rem;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.login-btn {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    background-color: #FFE431;
+    cursor: pointer;
+    padding: 1.25rem;
+    border-radius: 8px;
+    color: #3D1E1D;
+    font-size: 18px;
+}
+
+.login-btn svg {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.login-remain {
+    display: flex;
+    align-items: center;
+}
+
+.login-remain input {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #FBFBFB;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #EAEAEA;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.login-remain input:checked {
+    background-color: #ffea63;
+}
+
+.login-remain span {
+    margin-left: 10px;
+    font-size: 15px;
+    color: #9E9E9E;
+}
+
+.ground {
+    width: 100vw;
+    height: 10vh;
+    background-color: #EBF5EC;
+}

@@ -21,17 +21,17 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
 from .text import message
 from django.contrib.auth import login as django_login
-from kudoc.my_settings import EMAIL,app_rest_api_key
+from kudoc.my_settings import EMAIL, app_rest_api_key
 from .models import Notice, User
 
 
 def login(request):
 
-    return render(request, 'account/login.html')
+    return render(request, 'accounts/login.html')
 
 
 def logout(request):
-    return render(request, 'account/logout.html')
+    return render(request, 'accounts/logout.html')
 
 
 def kakao_login(request):
@@ -39,6 +39,7 @@ def kakao_login(request):
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
     )
+
 
 def kakao_callback(request):
     code = request.GET.get("code", None)
