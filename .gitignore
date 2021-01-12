@@ -5,3 +5,13 @@ myvenv
 db.sqlite3
 .DS_Store
 kudoc/my_settings.py
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
