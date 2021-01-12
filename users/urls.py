@@ -10,6 +10,6 @@ urlpatterns = [
     path('login/kakao/', kakao_login, name='kakao_login'),
     path('login/kakao/callback/', kakao_callback, name='kakao_callback'),
     path('signup/', SignUpView.as_view(), name="signup"), 
-    path('activate/<str:uidb64>/<str:token>/',Activate.as_view(),name="activate"),
+    path('activate/<str:uidb64>/<str:token>/', Activate.as_view(),name="activate"),
     path('main/subscribe/<int:notice_id>/', SubscribeView.as_view(), name="subscribe"),
 ]

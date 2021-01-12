@@ -21,7 +21,7 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
 from .text import message
 from django.contrib.auth import login as django_login
-from kudoc.my_settings import EMAIL, app_rest_api_key
+from kudoc.my_settings import EMAIL, app_rest_api_key,SECRET_KEY
 from .models import Notice, User
 
 
@@ -124,35 +124,21 @@ class SubscribeView(View):
             path = urlparse(referer_url).path
             return HttpResponseRedirect(path)
 
-# class SubscribedList(View):
-#     template_name = 'admin.html'
-#     def get(self, request):
-#         queryset = user.subscribed.all()
-
-#     def get_queryset(self):
-#         queryset = user.subscribed.all()
-#         return queryset
-# # user 별 구독한 모델 가져오기
-
-
-# 메일인증
 class SignUpView(View):
 
     def post(self, request):
         data = request.POST['e_mail']
         user = request.user
         user.email = data
-        user.active = True
+        user.active = False
         user.save()
 
         try:
             validate_email(data)
-
             domain = "127.0.0.1:8000"
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
             token = account_activation_token.make_token(user)
-            message_data = message(domain, uidb64, token)
+            message_data = message(domain, uidb64,token)
             mail_title = " 이메일 인증을 완료해주세요 !"
             mail_to = data
             email = EmailMessage(mail_title, message_data, to=[mail_to])
@@ -168,9 +154,9 @@ class SignUpView(View):
             return JsonResponse({"message": "VALIDATION_ERROR"}, status=200)
 
 class Activate(View):
-    def activate(self, request, uidb64, token):
+    def get(self, request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = Users.objects.get(pk=uid)
+        user = User.objects.get(pk=uid)
         if account_activation_token.check_token(user, token):
             user.active = True
             user.save()
