@@ -12,4 +12,5 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name="signup"), 
     path('activate/<str:uidb64>/<str:token>/', Activate.as_view(),name="activate"),
     path('main/subscribe/<int:notice_id>/', SubscribeView.as_view(), name="subscribe"),
+    path('success/', views.success, name = "success"),
 ]

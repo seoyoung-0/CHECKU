@@ -12,9 +12,9 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
-    ]
+    # dependencies = [
+    #      ('users', '0001_initial.py'),
+    # ]
 
     operations = [
         migrations.CreateModel(

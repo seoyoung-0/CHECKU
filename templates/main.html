@@ -8,6 +8,39 @@
 
 {% block content %}
 <div class="container is-max-desktop main-container">
-    asd
+    <div class="logout">
+        <a class="logout_link" href="/accounts/logout">로그아웃하기</a>
+    </div>
+    <h1> 학교 공지사항</h1>
+    <p>알림받고 싶은 게시판을 선택해주세요.</p>
+    
+    {% if user.is_authenticated %}
+    <div class="menu_wrapper">
+        <div>
+            <!-- 전체 선택 버튼 + view 구현  -->
+        </div>
+        {{ user.nickname}}
+        {% for notice in notice_list %}
+        <div class="menu_dot">
+            <a class="menu_link" href="{% url 'subscribe' notice.id %}">
+                {{ notice.title }}
+            </a>
+        </div>
+        {% endfor %}
+    
+        {% for notice in notice_list %}
+        <br>
+        {{ notice.title }}
+        {% for user in notice.subscribed.all %}
+        {{ user.nickname }}
+        {{ user.kakao_id }}
+        {% endfor %}
+        <br>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+    <p>로그인 필요</p>
+    {% endif %}
 </div>
 {% endblock %}
