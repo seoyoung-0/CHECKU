@@ -22,14 +22,6 @@ for (let i = 0; i < categories.length; i++) {
       });
 
     categories[i].classList.toggle("category-selected");
-
-    // if (category_is_seleceted[i] == false) {
-    //   categories[i].classList.add("category-selected");
-    //   category_is_seleceted[i] = true;
-    // } else {
-    //   categories[i].classList.remove("category-selected");
-    //   category_is_seleceted[i] = false;
-    // }
   });
 }
 
