@@ -140,9 +140,9 @@ class SignUpView(View):
         try:
             validate_email(data)
             domain = "127.0.0.1:8000"
-            # uidb64 = urlsafe_base64_encode(
-            #     force_bytes(user.pk)).encode().decode()
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+            uidb64 = urlsafe_base64_encode(
+                force_bytes(user.pk)).encode().decode()
+            #uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
             token = account_activation_token.make_token(user)
             message_data = message(domain, uidb64, token)
             mail_title = " 이메일 인증을 완료해주세요 !"
