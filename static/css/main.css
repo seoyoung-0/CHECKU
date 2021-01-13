@@ -54,6 +54,11 @@
     font-size: 1rem;
 }
 
+.category-selected {
+    background-color: #53A770;
+    color: #FBFBFB;
+}
+
 .category-id {
     display: none;
 }
