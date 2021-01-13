@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container is-max-desktop main-container">
+<div class="container main-container">
     {% if user.is_authenticated %}
     <div class="main-header">
         <div class="header-logout">
@@ -21,30 +21,30 @@
         <div class="main-subtitle subtitle">
             <p class="subtitle">알림받고 싶은 게시판을 선택해주세요</p>
         </div>
-        <div class="category-container">
+        <div class="categories-container">
             <div class="category-entire">
                 전체 공지 받기
             </div>
             <div class="categories">
                 {% for notice in notice_list %}
-                <div class="category-container">
-                    <a class="category" href="{% url 'subscribe' notice.id %}">
-                        {{ notice.title }}
-                    </a>
+                <div class="category">
+                    {{ notice.title }}
+                    <span class="category-id">
+                        {{ notice.id }}
+                    </span>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
     {% else %}
-    <p>로그인 필요</p>  
+    <p>로그인 필요</p>
     {% endif %}
 </div>
 {% endblock %}
 
 
 {% block script %}
-<script>
-
-</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 {% endblock %}

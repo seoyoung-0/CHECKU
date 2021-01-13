@@ -1,8 +1,6 @@
 /* main.css */
 .main-container {
-    height: 100vh;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 3rem;
 }
 
 .main-header {
@@ -24,7 +22,7 @@
     padding-bottom: 3rem;
 }
 
-.category-container {
+.categories-container {
     padding: 1rem 0;
 }
 
@@ -33,4 +31,36 @@
     color: #53A770;
     font-weight: 900;
     cursor: pointer;
+    padding-bottom: 2rem;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 3rem;
+}
+
+.category {
+    width: 6rem;
+    height: 6rem;
+    background-color: #FBFBFB;
+    border: 1px solid #EAEAEA;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #53A770;
+    font-size: 1rem;
+}
+
+.category-id {
+    display: none;
+}
+
+/* under desktop */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 2rem;
+    }
 }
