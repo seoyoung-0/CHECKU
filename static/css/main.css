@@ -5,7 +5,7 @@
 
 .main-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content:space-between;
     padding-bottom: 3rem;
 }
 
@@ -16,14 +16,26 @@
     border-radius: 6rem;
     font-size: 16px;
     color: #7C7C7C;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.header-logout:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.main-header .title {
+    color: #418659;
+    font-weight: 900;
 }
 
 .main-content {
-    padding-bottom: 3rem;
 }
 
 .categories-container {
     padding: 1rem 0;
+    padding-bottom: 3rem;
 }
 
 .category-entire {
@@ -60,11 +72,12 @@
 
 @media screen and (max-width: 320px) {
     .categories {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 .category {
+    font-weight: 900;
     width: 6rem;
     height: 6rem;
     background-color: #FBFBFB;
@@ -76,6 +89,13 @@
     cursor: pointer;
     color: #53A770;
     font-size: 1rem;
+    transition: .2s;
+
+}
+
+.category:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 .category-selected {
@@ -85,6 +105,31 @@
 
 .category-id {
     display: none;
+}
+
+.department-title {
+    padding: 1rem 0;
+}
+
+.department-input-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.department-input {
+    padding-right: 2rem;
+    border-radius: 5px;
+    height: 2.5rem;
+}
+
+.department-btn {
+    padding: 1rem 2rem;
+    background-color: #53A770;
+    color: #fff;
+    border-radius: 5px;
+    height: 2.5rem;
+    cursor: pointer ;
 }
 
 /* under desktop */

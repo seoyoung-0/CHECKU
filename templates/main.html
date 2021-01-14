@@ -10,8 +10,15 @@
 <div class="container main-container">
     {% if user.is_authenticated %}
     <div class="main-header">
-        <div class="header-logout">
-            로그아웃
+        <div>
+            <p class="title">
+                CHECKU
+            </p>
+        </div>
+        <div>
+            <a class="header-logout" href="http://127.0.0.1:8000/accounts/logout/">
+                로그아웃
+            </a>
         </div>
     </div>
     <div class="main-content">
@@ -34,6 +41,24 @@
                     </span>
                 </div>
                 {% endfor %}
+            </div>
+        </div>
+        <div class="department-container">
+            <div class="department-title">
+                <p class="title">나의 학과 공지사항</p>
+            </div>
+            <div class="department-input-container">
+                <div class="department-inputs">
+                    <p class="control has-icons-left">
+                        <input class="input department-input" ≈type="password" placeholder="학과 검색하기">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="department-btn">
+                    검색
+                </div>
             </div>
         </div>
     </div>
