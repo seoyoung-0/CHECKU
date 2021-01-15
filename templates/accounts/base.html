@@ -1,4 +1,6 @@
 {% load static %}
+{% load webpush_notifications %}
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -8,7 +10,7 @@
 	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bulma/css/bulma.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-
+	{% webpush_header %}
 	{% block styles %}
 	{% endblock %}
 	<title>CHECKU :: 건국대학교 공지알리미</title>
