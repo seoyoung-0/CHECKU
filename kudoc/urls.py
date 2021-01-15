@@ -25,5 +25,5 @@ urlpatterns = [
     path('main/', NoticeList.as_view(), name = "main"),
     path('users/',include('users.urls')),
     path('accounts/', include('allauth.urls')),
-
+    url('webpush/', include('webpush.urls'))
 ]

@@ -27,14 +27,23 @@
             </div>
             <div class="categories">
                 {% for notice in notice_list %}
+                <a href = "{% url 'subscribe' notice.id %}">
                 <div class="category">
                     {{ notice.title }}
+                    <!-- {% for user in notice.subscribed.all %}
+                        {{user.nickname}}
+                    {% endfor %} -->
                     <span class="category-id">
-                        {{ notice.id }}
                     </span>
-                </div>
+                    </div>
+                </a>
+
                 {% endfor %}
             </div>
+
+            {% for notice in notice_list %}
+            <span>{{ notice.subscribed.all}}</span>
+            {% endfor %}
         </div>
     </div>
     {% else %}

@@ -48,7 +48,14 @@ INSTALLED_APPS = [
     
     #카카오
     'allauth.socialaccount.providers.kakao',
+    'webpush',
 ]
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BF0yBACGinfBkx-KRkjqja18c9dC01C0KnPbz9J4y_eAmXsei06uEeikC6KCDvDxWwC5jI0ZBMcw5n4T2cehv38",
+    "VAPID_PRIVATE_KEY":"27JsnWZbBnObCH1wMLoVI5zIqitQJQv1fkHdnkgzg2I",
+    "VAPID_ADMIN_EMAIL": "checku2wit@gmail.com"
+}
 # AUTH_USER_MODEL='users.MyUser'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_ADAPTER="users.adapters.SocialAccountAdapter"

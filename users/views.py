@@ -23,7 +23,7 @@ from .text import message
 from django.contrib.auth import login as django_login
 from kudoc.my_settings import EMAIL, app_rest_api_key, SECRET_KEY
 from .models import Notice, User
-
+from webpush import send_user_notification
 
 def login(request):
 
@@ -42,7 +42,6 @@ def kakao_login(request):
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
     )
-
 
 def kakao_callback(request):
     code = request.GET.get("code", None)
@@ -128,6 +127,25 @@ class SubscribeView(View):
             return HttpResponseRedirect(path)
 
 
+def send_notification(request):
+    if request.method == "POST":   
+        notice_num = request.POST.get("notice_num",None)
+        href = request.POST.get("href",None)
+        category_title = request.POST.get("category_title",None)
+
+        received_Notice = Notice.objects.filter(pk = notice_num)
+        re_subs_users = received_Notice.subscribed.all()
+        
+        payload = {"head": "CHECKU,새로운 공지입니다.",
+                   "body": f"{category_title}",
+                   "url": f"{re_href}"}
+     
+        payload = json.dumps(payload)
+
+        for user in re_subs_users:
+            send_user_notification(user,payload)
+
+
 class SignUpView(View):
 
     def post(self, request):
@@ -158,8 +176,6 @@ class SignUpView(View):
             return JsonResponse({"message": "INVALID_TYPE"}, status=200)
         except ValidationError:
             return JsonResponse({"message": "VALIDATION_ERROR"}, status=200)
-
-
 class Activate(View):
     def get(self, request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -168,5 +184,4 @@ class Activate(View):
             user.active = True
             user.save()
             return redirect(EMAIL['REDIRECT_PAGE'])
-
         return JsonResponse({"message": "AUTH FAIL"}, status=400)
