@@ -133,3 +133,24 @@
     height: 10vh;
     background-color: #EBF5EC;
 }
+
+.succees-container {
+    width: 100%;
+}
+
+.success-submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    background-color: #53A770;
+    padding: 1rem;
+    color: #fff;
+    border-radius: 5px;
+    width:auto;
+}
+
+.success-submit:hover {
+    color: #FFF;
+}
