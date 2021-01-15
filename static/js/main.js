@@ -30,3 +30,4 @@ category_entire.addEventListener("click", () => {
     categories[i].classList.toggle("category-selected", true);
   }
 });
+
