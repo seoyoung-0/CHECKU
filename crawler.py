@@ -111,11 +111,11 @@ def get_trs(URL, end_page):
     return trs_list
 
 
-def check_updated(latest: str, href, NOTICE):
+def check_updated(latest: str, href, title, NOTICE):
     if href != NOTICE[latest]:
         print("UPDATED", latest, "in", NOTICE["category"])
         # POST to Django
-        post_updated(href, NOTICE)
+        post_updated(href, title, NOTICE)
 
         # update latest post
         NOTICE[latest] = href
@@ -125,9 +125,10 @@ def check_updated(latest: str, href, NOTICE):
         return False
 
 
-def post_updated(href: str, NOTICE):
+def post_updated(href: str, title, NOTICE):
     data = {
         "href": href,
+        "title": title,
         "notice_num": NOTICE["category_num"],
         "category_title": NOTICE["category"]
     }
@@ -198,13 +199,13 @@ def check_notices():
 
             if hasClass:
                 if isNoticeDone == False:
-                    check_updated("latest_notice", href, NOTICE)
+                    check_updated("latest_notice", href, title, NOTICE)
                     isNoticeDone = True
                 else:
                     continue
             else:
                 if isPostDone == False:
-                    check_updated("latest_post", href, NOTICE)
+                    check_updated("latest_post", href, title, NOTICE)
                     isPostDone = True
                 else:
                     continue
