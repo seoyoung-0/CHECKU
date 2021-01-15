@@ -10,16 +10,16 @@
 
 .title-tile .title {
     font-weight: 700;
-    font-size: 40px;
+    font-size: 2.5rem;
 }
 
 .title-tile .subtitle {
     font-weight: 500;
-    font-size: 40px;
+    font-size: 2.2rem;
 }
 
 .title-tile .minititle {
-    font-size: 20px;
+    font-size: 1.25px;
     font-weight: 400;
     color: #969696;
 }
@@ -148,9 +148,47 @@
     padding: 1rem;
     color: #fff;
     border-radius: 5px;
-    width:auto;
+    width: auto;
 }
 
 .success-submit:hover {
     color: #FFF;
+}
+
+/* under desktop */
+@media screen and (max-width: 768px) {
+    .title-tile .title {
+        font-size: 2rem;
+    }
+
+    .title-tile .subtitle {
+        font-size: 2rem;
+    }
+
+    .title-tile .minititle {
+        font-size: 1.2rem;
+    }
+
+    .logo-tile {
+        /* padding: 0;
+        display: flex;
+        justify-content: center; */
+        display: none;
+    }
+
+    /* .checku-logo {
+        position:sticky;
+    } */
+
+    .kakao-tile .subtitle {
+        font-size: 1rem;
+    }
+
+    .kakao-tile>.box {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        border-radius: 8px;
+    }
 }
