@@ -18,12 +18,16 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes, force_text
+from django.views.decorators.csrf import csrf_exempt
 from .tokens import account_activation_token
 from .text import message
 from django.contrib.auth import login as django_login
 from kudoc.my_settings import EMAIL, app_rest_api_key, SECRET_KEY
 from .models import Notice, User
 from webpush import send_user_notification
+from webpush.utils import send_to_subscription
+from webpush import send_group_notification
+
 
 def login(request):
 
@@ -32,6 +36,7 @@ def login(request):
 
 def logout(request):
     return render(request, 'accounts/logout.html')
+
 
 def success(request):
     return render(request, 'accounts/success.html')
@@ -42,6 +47,7 @@ def kakao_login(request):
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
     )
+
 
 def kakao_callback(request):
     code = request.GET.get("code", None)
@@ -127,23 +133,32 @@ class SubscribeView(View):
             return HttpResponseRedirect(path)
 
 
+@csrf_exempt
 def send_notification(request):
-    if request.method == "POST":   
-        notice_num = request.POST.get("notice_num",None)
-        href = request.POST.get("href",None)
-        category_title = request.POST.get("category_title",None)
+    if request.method == "POST":
+        notice_num = request.POST.get("notice_num", None)
+        category_title = request.POST.get("category_title", None)
+        href = request.POST.get("href", None)
+        title = request.POST.get("title", None)
 
-        received_Notice = Notice.objects.filter(pk = notice_num)
+        received_Notice = Notice.objects.get(pk=notice_num)
         re_subs_users = received_Notice.subscribed.all()
-        
-        payload = {"head": "CHECKU,새로운 공지입니다.",
-                   "body": f"{category_title}",
-                   "url": f"{re_href}"}
-     
+
+        payload = {"head": f"CHECKU :: {category_title}의 새로운 공지를 확인하세요🎓",
+                   "body": f"{title}",
+                   "icon": f'https://i.imgur.com/dRDxiCQ.png',
+                   "url": f"{href}"
+                   }
+
         payload = json.dumps(payload)
 
         for user in re_subs_users:
-            send_user_notification(user,payload)
+            push_infos = user.webpush_info.select_related("subscription")
+
+            for push_info in push_infos:
+                send_to_subscription(push_info.subscription, payload)
+
+        return HttpResponse(title)
 
 
 class SignUpView(View):
@@ -160,7 +175,7 @@ class SignUpView(View):
             domain = "127.0.0.1:8000"
             uidb64 = urlsafe_base64_encode(
                 force_bytes(user.pk)).encode().decode()
-            #uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+            # uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()
             token = account_activation_token.make_token(user)
             message_data = message(domain, uidb64, token)
             mail_title = " 이메일 인증을 완료해주세요 !"
@@ -176,6 +191,8 @@ class SignUpView(View):
             return JsonResponse({"message": "INVALID_TYPE"}, status=200)
         except ValidationError:
             return JsonResponse({"message": "VALIDATION_ERROR"}, status=200)
+
+
 class Activate(View):
     def get(self, request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
