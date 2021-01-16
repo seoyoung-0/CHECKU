@@ -14,70 +14,68 @@ window.addEventListener("load", function () {
   //     return unsubscribe(registration);
   //   }
   //   return subscribe(registration);
-  });
-
-  // Do everything if the Browser Supports Service Worker
-  if ("serviceWorker" in navigator) {
-    const serviceWorker = document.querySelector(
-      'meta[name="service-worker-js"]'
-    ).content;
-    navigator.serviceWorker.register(serviceWorker).then(function (reg) {
-      registration = reg;
-      initialiseState(reg);
-    });
-  }
-  // If service worker not supported, show warning to the message box
-  else {
-    showMessage("Service Worker is not supported in your Browser!");
-  }
-
-  // Once the service worker is registered set the initial state
-  function initialiseState(reg) {
-    // Are Notifications supported in the service worker?
-    if (!reg.showNotification) {
-      // Show a message and activate the button
-      subBtn.textContent = "Subscribe to Push Messaging";
-      showMessage("Showing Notification is not suppoted in your browser");
-      return;
-    }
-
-    // Check the current Notification permission.
-    // If its denied, it's a permanent block until the
-    // user changes the permission
-    if (Notification.permission === "denied") {
-      // Show a message and activate the button
-      subBtn.textContent = "Subscribe to Push Messaging";
-      subBtn.disabled = false;
-      showMessage("The Push Notification is blocked from your browser.");
-      return;
-    }
-
-    // Check if push messaging is supported
-    if (!("PushManager" in window)) {
-      // Show a message and activate the button
-      subBtn.textContent = "Subscribe to Push Messaging";
-      subBtn.disabled = false;
-      showMessage("Push Notification is not available in the browser");
-      return;
-    }
-
-    // We need to get subscription state for push notifications and send the information to server
-    reg.pushManager.getSubscription().then(function (subscription) {
-      if (subscription) {
-        postSubscribeObj("subscribe", subscription, function (response) {
-          // Check the information is saved successfully into server
-          if (response.status === 201) {
-            // Show unsubscribe button instead
-            subBtn.textContent = "Unsubscribe to Push Messaging";
-            subBtn.disabled = false;
-            isPushEnabled = true;
-            showMessage("Successfully subscribed for Push Notification");
-          }
-        });
-      }
-    });
-  }
 });
+
+// Do everything if the Browser Supports Service Worker
+if ("serviceWorker" in navigator) {
+  const serviceWorker = document.querySelector('meta[name="service-worker-js"]')
+    .content;
+  navigator.serviceWorker.register(serviceWorker).then(function (reg) {
+    registration = reg;
+    initialiseState(reg);
+  });
+}
+// If service worker not supported, show warning to the message box
+else {
+  showMessage("Service Worker is not supported in your Browser!");
+}
+
+// Once the service worker is registered set the initial state
+function initialiseState(reg) {
+  // Are Notifications supported in the service worker?
+  if (!reg.showNotification) {
+    // Show a message and activate the button
+    subBtn.textContent = "Subscribe to Push Messaging";
+    showMessage("Showing Notification is not suppoted in your browser");
+    return;
+  }
+
+  // Check the current Notification permission.
+  // If its denied, it's a permanent block until the
+  // user changes the permission
+  if (Notification.permission === "denied") {
+    // Show a message and activate the button
+    subBtn.textContent = "Subscribe to Push Messaging";
+    subBtn.disabled = false;
+    showMessage("The Push Notification is blocked from your browser.");
+    return;
+  }
+
+  // Check if push messaging is supported
+  if (!("PushManager" in window)) {
+    // Show a message and activate the button
+    subBtn.textContent = "Subscribe to Push Messaging";
+    subBtn.disabled = false;
+    showMessage("Push Notification is not available in the browser");
+    return;
+  }
+
+  // We need to get subscription state for push notifications and send the information to server
+  reg.pushManager.getSubscription().then(function (subscription) {
+    if (subscription) {
+      postSubscribeObj("subscribe", subscription, function (response) {
+        // Check the information is saved successfully into server
+        if (response.status === 201) {
+          // Show unsubscribe button instead
+          subBtn.textContent = "Unsubscribe to Push Messaging";
+          subBtn.disabled = false;
+          isPushEnabled = true;
+          showMessage("Successfully subscribed for Push Notification");
+        }
+      });
+    }
+  });
+}
 
 function showMessage(message) {
   const messageBox = document.getElementById("webpush-message");
