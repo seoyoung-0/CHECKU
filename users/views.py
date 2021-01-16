@@ -43,7 +43,7 @@ def success(request):
 
 
 def kakao_login(request):
-    redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
+    redirect_uri = "http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/users/login/kakao/callback/"
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
     )
@@ -51,7 +51,7 @@ def kakao_login(request):
 
 def kakao_callback(request):
     code = request.GET.get("code", None)
-    redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback/"
+    redirect_uri = "http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/users/login/kakao/callback/"
     url = "https://kauth.kakao.com/oauth/token"
     headers = {
         'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
@@ -86,9 +86,9 @@ def kakao_callback(request):
                 backend="django.contrib.auth.backends.ModelBackend",)
             # 카카오 로그인 -> 이메일 인증 여부 확인
             if user.active == True:
-                return redirect("http://127.0.0.1:8000/main")
+                return redirect("http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/main")
             else:
-                return redirect("http://127.0.0.1:8000/")
+                return redirect("http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/")
 
     # 처음 로그인 하는 User 추가
     User(
@@ -103,7 +103,7 @@ def kakao_callback(request):
             request,
             user,
             backend="django.contrib.auth.backends.ModelBackend",)
-        return redirect("http://127.0.0.1:8000/")
+        return redirect("http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/")
 
 
 class NoticeList(View):
@@ -172,7 +172,7 @@ class SignUpView(View):
 
         try:
             validate_email(data)
-            domain = "127.0.0.1:8000"
+            domain = "http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/"
             uidb64 = urlsafe_base64_encode(
                 force_bytes(user.pk)).encode().decode()
             # uidb64 = urlsafe_base64_encode(force_bytes(user.pk)).decode()

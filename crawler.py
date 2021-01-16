@@ -132,7 +132,8 @@ def post_updated(href: str, title, NOTICE):
         "notice_num": NOTICE["category_num"],
         "category_title": NOTICE["category"]
     }
-    res = requests.post("127.0.0.1:8000/updated/", data=data)
+    res = requests.post(
+        "http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/updated/", data=data)
 
 
 def init_notice(latest: str, href, NOTICE):
