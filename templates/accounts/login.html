@@ -6,6 +6,7 @@
 
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -142,6 +143,7 @@
 </div>
 
 <div class="ground"></div>
+{% include 'footer.html' %}
 
 {% endblock %}
 

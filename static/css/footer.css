@@ -1,0 +1,21 @@
+.footer {
+    padding: 2rem 1.5rem;
+    background-color: #EFEFEF !important;
+}
+
+.footer .content {
+    font-size: 0.8rem;
+    color: #808080;
+}
+
+.footer-logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@media screen and (max-width: 768px) {
+    .footer .content {
+        font-size: 0.5rem;
+    }
+}
