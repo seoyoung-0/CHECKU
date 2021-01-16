@@ -26,7 +26,8 @@ SECRET_KEY = kudoc.my_settings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'ap-northeast-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'ap-northeast-2.compute.amazonaws.com',
+                 'ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com']
 
 
 # Application definition
