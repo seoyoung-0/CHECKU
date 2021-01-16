@@ -10,7 +10,10 @@
 	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bulma/css/bulma.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-	{% webpush_header %}
+	<meta name="service-worker-js" content="/webpush/service-worker.js">
+	<meta name="django-webpush-vapid-key"
+		content="BF0yBACGinfBkx-KRkjqja18c9dC01C0KnPbz9J4y_eAmXsei06uEeikC6KCDvDxWwC5jI0ZBMcw5n4T2cehv38">
+	<script id="webpush-js" type="text/javascript" src="{% static 'js/webpush.js' %}"></script>
 	{% block styles %}
 	{% endblock %}
 	<title>CHECKU :: 건국대학교 공지알리미</title>
@@ -19,7 +22,7 @@
 <body>
 	{% block content %}
 	{% endblock %}
-	
+
 	{% block script %}
 	{% endblock %}
 </body>
