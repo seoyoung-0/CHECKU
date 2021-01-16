@@ -26,7 +26,7 @@ SECRET_KEY = kudoc.my_settings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'ap-northeast-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -44,21 +44,21 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',  
-    
-    #카카오
+    'allauth.socialaccount',
+
+    # 카카오
     'allauth.socialaccount.providers.kakao',
     'webpush',
 ]
 
 WEBPUSH_SETTINGS = {
     "VAPID_PUBLIC_KEY": "BF0yBACGinfBkx-KRkjqja18c9dC01C0KnPbz9J4y_eAmXsei06uEeikC6KCDvDxWwC5jI0ZBMcw5n4T2cehv38",
-    "VAPID_PRIVATE_KEY":"27JsnWZbBnObCH1wMLoVI5zIqitQJQv1fkHdnkgzg2I",
+    "VAPID_PRIVATE_KEY": "27JsnWZbBnObCH1wMLoVI5zIqitQJQv1fkHdnkgzg2I",
     "VAPID_ADMIN_EMAIL": "checku2wit@gmail.com"
 }
 # AUTH_USER_MODEL='users.MyUser'
 SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_ADAPTER="users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -83,7 +83,7 @@ ROOT_URLCONF = 'kudoc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates','accounts')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,11 +148,11 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 SITE_ID = 2
 AUTH_USER_MODEL = 'users.User'
 
 # django-allauth setting
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"  # 로그아웃 후 리디렉션 할 페이지
-ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
+ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 버튼 클릭 시 자동 로그아웃
