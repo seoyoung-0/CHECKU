@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import requests
 import time
 from bs4 import BeautifulSoup
@@ -133,7 +134,7 @@ def post_updated(href: str, title, NOTICE):
         "category_title": NOTICE["category"]
     }
     res = requests.post(
-        "http://ec2-3-36-67-112.ap-northeast-2.compute.amazonaws.com:8000/updated/", data=data)
+        "https://checku.site/users/updated/", data=data)
 
 
 def init_notice(latest: str, href, NOTICE):
@@ -213,8 +214,15 @@ def check_notices():
 
 
 if __name__ == "__main__":
-    init_notices()
+    # init_notices()
 
     while True:
-        check_notices()
-        time.sleep(3)
+        data = {
+            "href": "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b43951",
+            "title": "일반직원(정규직) 2차 합격자 발표",
+            "notice_num": 2,
+            "category_title": "학사"
+        }
+        res = requests.post(
+            "https://checku.site/users/updated/", data=data)
+        time.sleep(60)
